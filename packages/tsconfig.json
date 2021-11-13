@@ -45,6 +45,9 @@
       "path": "./composites/medianizer"
     },
     {
+      "path": "./composites/mysocialcontract"
+    },
+    {
       "path": "./composites/outlier-detection"
     },
     {

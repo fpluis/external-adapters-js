@@ -79,6 +79,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/medianizer"
       },
       {
+        "name": "@chainlink/mysocialcontract-adapter",
+        "reference": "workspace:packages/composites/mysocialcontract"
+      },
+      {
         "name": "@chainlink/outlier-detection-adapter",
         "reference": "workspace:packages/composites/outlier-detection"
       },
@@ -734,6 +738,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],
       ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],
       ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],
+      ["@chainlink/mysocialcontract-adapter", ["workspace:packages/composites/mysocialcontract"]],
       ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],
       ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],
       ["@chainlink/nomics-adapter", ["workspace:packages/sources/nomics"]],
@@ -5494,6 +5499,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
             ["@types/jest", "npm:26.0.24"],
             ["@types/node", "npm:14.17.21"],
+            ["tslib", "npm:2.3.1"],
+            ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@chainlink/mysocialcontract-adapter", [
+        ["workspace:packages/composites/mysocialcontract", {
+          "packageLocation": "./packages/composites/mysocialcontract/",
+          "packageDependencies": [
+            ["@chainlink/mysocialcontract-adapter", "workspace:packages/composites/mysocialcontract"],
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],
+            ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],
+            ["@chainlink/types", "workspace:packages/core/types/@chainlink"],
+            ["@types/jest", "npm:27.0.2"],
+            ["@types/node", "npm:14.17.21"],
+            ["@types/supertest", "npm:2.0.11"],
+            ["nock", "npm:13.1.3"],
+            ["supertest", "npm:6.1.6"],
             ["tslib", "npm:2.3.1"],
             ["typescript", "patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"]
           ],
