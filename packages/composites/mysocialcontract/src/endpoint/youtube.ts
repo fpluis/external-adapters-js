@@ -36,13 +36,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   const ytChannelId = validator.validated.data.ytChannelId
   const ytSubs = validator.validated.data.ytSubs
   const ytViews = validator.validated.data.ytViews
-  console.log(`Channel id ${ytChannelId}; subs? ${ytSubs}; views? ${ytViews}`)
 
   const promises: Promise<any>[] = []
 
   if (ytChannelId && (ytSubs || ytViews)) {
     const youtubeApiKey = process.env.YOUTUBE_API_KEY
-    console.log(`Calling youtube with config ${JSON.stringify(config)}, api key ${youtubeApiKey}`)
     const options = {
       ...config.api,
       params: {
@@ -53,7 +51,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       url: YOUTUBE_ENDPOINT,
     }
     const promise = new Promise(async (resolve) => {
-      console.log(`Running promise`)
       const response = (await Requester.request<YoutubeResponseSchema>(options, customError)) as any
       const {
         data: { items },
@@ -78,7 +75,6 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
   }
 
   const responses = await Promise.all(promises)
-  console.log(`Responses: ${JSON.stringify(responses)}`)
   const result = responses.reduce((result, response) => {
     return { ...result, ...response }
   }, {})
