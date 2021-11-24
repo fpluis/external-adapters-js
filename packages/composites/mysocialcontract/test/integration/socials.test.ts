@@ -4,7 +4,7 @@ import * as process from 'process'
 import { server as startServer } from '../../src'
 import * as nock from 'nock'
 import * as http from 'http'
-import { mockResponseSuccess } from './fixtures'
+import { mockYoutubeSuccess, mockTwitterSuccess } from './fixtures'
 
 describe('execute', () => {
   const id = '1'
@@ -13,6 +13,7 @@ describe('execute', () => {
   beforeAll(async () => {
     process.env.CACHE_ENABLED = 'false'
     process.env.YOUTUBE_API_KEY = 'mock-api-key'
+    process.env.TWITTER_API_KEY = 'mock-api-key'
     if (process.env.RECORD) {
       nock.recorder.rec()
     }
@@ -30,47 +31,14 @@ describe('execute', () => {
   })
 
   describe('statistics api', () => {
-    it('should return success with only one yt property', async () => {
+    it('should return success with a valid ytChannelId', async () => {
       const data: AdapterRequest = {
         id,
         data: {
           ytChannelId: 'UCfpnY5NnBl-8L7SvICuYkYQ',
-          ytViews: true,
         },
       }
-      mockResponseSuccess()
-
-      const response = await req
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-      expect(response.body).toEqual({
-        data: {
-          result: {
-            ytViews: 30692800,
-          },
-        },
-        jobRunID: '1',
-        result: {
-          ytViews: 30692800,
-        },
-        statusCode: 200,
-      })
-    })
-
-    it('should return success with both yt properties', async () => {
-      const data: AdapterRequest = {
-        id,
-        data: {
-          ytChannelId: 'UCfpnY5NnBl-8L7SvICuYkYQ',
-          ytViews: true,
-          ytSubs: true,
-        },
-      }
-      mockResponseSuccess()
+      mockYoutubeSuccess()
 
       const response = await req
         .post('/')
@@ -84,12 +52,85 @@ describe('execute', () => {
           result: {
             ytViews: 30692800,
             ytSubs: 104000,
+            twitterFollowers: 0,
           },
         },
         jobRunID: '1',
         result: {
           ytViews: 30692800,
           ytSubs: 104000,
+          twitterFollowers: 0,
+        },
+        statusCode: 200,
+      })
+    })
+
+    it('should return success with a valid twitter username', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          twitterUsername: 'twitterdev',
+        },
+      }
+      mockTwitterSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        // .set('Authorization', 'Bearer mock-api-key')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toEqual({
+        data: {
+          result: {
+            ytViews: 0,
+            ytSubs: 0,
+            twitterFollowers: 528832,
+          },
+        },
+        jobRunID: '1',
+        result: {
+          ytViews: 0,
+          ytSubs: 0,
+          twitterFollowers: 528832,
+        },
+        statusCode: 200,
+      })
+    })
+
+    it('should return success with both valid twitter username and youtube channel id', async () => {
+      const data: AdapterRequest = {
+        id,
+        data: {
+          ytChannelId: 'UCfpnY5NnBl-8L7SvICuYkYQ',
+          twitterUsername: 'twitterdev',
+        },
+      }
+      mockYoutubeSuccess()
+      mockTwitterSuccess()
+
+      const response = await req
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toEqual({
+        data: {
+          result: {
+            ytViews: 30692800,
+            ytSubs: 104000,
+            twitterFollowers: 528832,
+          },
+        },
+        jobRunID: '1',
+        result: {
+          ytViews: 30692800,
+          ytSubs: 104000,
+          twitterFollowers: 528832,
         },
         statusCode: 200,
       })

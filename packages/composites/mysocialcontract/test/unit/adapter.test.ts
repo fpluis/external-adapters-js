@@ -12,17 +12,8 @@ describe('execute', () => {
       { name: 'empty body', testData: {} },
       { name: 'empty data', testData: { data: {} } },
       {
-        name: 'ytChannelId not supplied',
+        name: 'ytChannelId or twitter username not supplied',
         testData: { id: jobID, data: {} },
-      },
-      {
-        name: 'ytChannelId supplied but no selectors',
-        testData: {
-          id: jobID,
-          data: {
-            ytChannelId: 'UCfpnY5NnBl-8L7SvICuYkYQ',
-          },
-        },
       },
     ]
 

@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock =>
+export const mockYoutubeSuccess = (): nock =>
   nock('https://youtube.googleapis.com', {
     encodedQueryParams: true,
   })
@@ -30,6 +30,46 @@ export const mockResponseSuccess = (): nock =>
         ],
       }),
       [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+
+export const mockTwitterSuccess = (): nock =>
+  nock('https://api.twitter.com', {
+    encodedQueryParams: true,
+    // reqheaders: {
+    //   authorization: 'Bearer mock-api-key',
+    // },
+  })
+    .get('/1.1/users/show.json')
+    .query({ screen_name: 'twitterdev' })
+    .reply(
+      200,
+      (_, request) => ({
+        id: 2244994945,
+        id_str: '2244994945',
+        name: 'Twitter Dev',
+        screen_name: 'TwitterDev',
+        location: '127.0.0.1',
+        profile_location: null,
+        description:
+          'The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.',
+        url: 'https://t.co/3ZX3TNiZCY',
+        protected: false,
+        followers_count: 528832,
+        friends_count: 2022,
+        listed_count: 1885,
+      }),
+      [
+        'Authorization',
+        'Bearer mock-api-key',
         'Content-Type',
         'application/json',
         'Connection',

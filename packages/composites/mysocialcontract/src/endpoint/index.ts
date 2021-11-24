@@ -1,1 +1,1 @@
-export * as youtube from './youtube'
+export * as socials from './socials'
